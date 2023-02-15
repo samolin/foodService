@@ -6,6 +6,8 @@
 *.pot
 *.pyc
 *.DS_Store
+*__init__.py
+*migrations
 __pycache__/
 local_settings.py
 db.sqlite3

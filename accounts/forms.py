@@ -1,6 +1,6 @@
 from django import forms
 
-from.models import User
+from .models import User
 
 
 class UserForm(forms.ModelForm):
@@ -9,11 +9,11 @@ class UserForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
-        password = cleaned_data.get('password')
-        confirm_password = cleaned_data.get('confirm_password')
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
         if password != confirm_password:
-            raise forms.ValidationError('Password does not match')
+            raise forms.ValidationError("Password does not match")
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'password']
+        fields = ["first_name", "last_name", "username", "email", "password"]

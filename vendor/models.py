@@ -21,16 +21,16 @@ class Vendor(models.Model):
         if self.pk is not None:
             orig = Vendor.objects.get(pk=self.pk)
             if orig.is_approved != self.is_approved:
-                mail_template = 'accounts/emails/admin_approval_email.html'
+                mail_template = "accounts/emails/admin_approval_email.html"
                 context = {
-                    'user': self.user,
-                    'is_approved': self.is_approved,
+                    "user": self.user,
+                    "is_approved": self.is_approved,
                 }
                 if self.is_approved == True:
-                    mail_subject = 'Congratulatins! Your restaurant has been approved.'
+                    mail_subject = "Congratulatins! Your restaurant has been approved."
                     send_notification(mail_subject, mail_template, context)
                 else:
-                    mail_subject = 'We are sorry you are not eligible for publishing your menu in our marketplace.'
+                    mail_subject = "We are sorry you are not eligible for publishing your menu in our marketplace."
                     send_notification(mail_subject, mail_template, context)
 
         super(Vendor, self).save(*args, **kwargs)

@@ -4,7 +4,7 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.myAccount),
+    path("", views.myAccount),
     path("registerUser", views.registerUser, name="registerUser"),
     path("registerVendor", views.registerVendor, name="registerVendor"),
     path("login", views.login, name="login"),
@@ -21,6 +21,5 @@ urlpatterns = [
         name="reset_password_validate",
     ),
     path("reset_password", views.reset_password, name="reset_password"),
-
-    path('vendor/', include('vendor.urls'))
+    path("vendor/", include("vendor.urls")),
 ]

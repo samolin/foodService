@@ -62,6 +62,7 @@ def registerVendor(request):
         form = UserForm(request.POST)
         vendor_form = VendorForm(request.POST, request.FILES)
         if form.is_valid() and vendor_form.is_valid():
+            print('validation')
             password = form.cleaned_data["password"]
             user = form.save(commit=False)
             user.set_password(password)
@@ -79,6 +80,7 @@ def registerVendor(request):
                 request,
                 "Account has been created successfully! Please wait for approval.",
             )
+            print('message sent successfully')
             return redirect("registerVendor")
         else:
             print(form.errors)

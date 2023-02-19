@@ -81,7 +81,19 @@
                                             {% endif %}
                                         {% endfor %}
                                         <li style="color: red">
-                                            {{ form.non_field_errors }}
+                                            {{ vendor_form.non_field_errors }}
+                                        </li>
+                                    </ul>
+                                    <ul class="errorlist">
+                                        {% for field in vendor_form %}
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                    <li style="color: red">{{ error }}</li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        <li style="color: red">
+                                            {{ profile_form.non_field_errors }}
                                         </li>
                                     </ul>
                                     <div class="row">

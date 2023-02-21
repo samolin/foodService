@@ -93,12 +93,12 @@ class UserProfile(models.Model):
         upload_to="users/cover_photo", blank=True, null=True
     )
     address = models.CharField(max_length=250, blank=True, null=True)
-    country = models.CharField(max_length=15, blank=True, null=True)
-    state = models.CharField(max_length=15, blank=True, null=True)
-    city = models.CharField(max_length=15, blank=True, null=True)
+    country = models.CharField(max_length=30, blank=True, null=True)
+    state = models.CharField(max_length=30, blank=True, null=True)
+    city = models.CharField(max_length=30, blank=True, null=True)
     zip_code = models.CharField(max_length=6, blank=True, null=True)
-    latitude = models.CharField(max_length=20, blank=True, null=True)
-    longtitude = models.CharField(max_length=20, blank=True, null=True)
+    # latitude = models.CharField(max_length=20, blank=True, null=True)
+    # longtitude = models.CharField(max_length=20, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now_add=True)
 

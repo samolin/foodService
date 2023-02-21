@@ -15,6 +15,14 @@ class FoodItemForm(forms.ModelForm):
         widget=forms.FileInput(attrs={"class": "btn btn-info w-100"}),
         validators=[allow_only_images_validator],
     )
+
     class Meta:
         model = FoodItem
-        fields = ["category", "food_title", "description", "price", "image", "is_available"]
+        fields = [
+            "category",
+            "food_title",
+            "description",
+            "price",
+            "image",
+            "is_available",
+        ]

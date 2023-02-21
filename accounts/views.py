@@ -70,8 +70,8 @@ def registerVendor(request):
             user.save()
             vendor = vendor_form.save(commit=False)
             vendor.user = user
-            vendor_name = vendor_form.cleaned_data['vendor_name']
-            vendor.vendor_slug = slugify(vendor_name)+'-'+str(user.id)
+            vendor_name = vendor_form.cleaned_data["vendor_name"]
+            vendor.vendor_slug = slugify(vendor_name) + "-" + str(user.id)
             user_profile = UserProfile.objects.get(user=user)
             vendor.user_profile = user_profile
             vendor.save()
@@ -82,7 +82,6 @@ def registerVendor(request):
                 request,
                 "Account has been created successfully! Please wait for approval.",
             )
-            print('message sent successfully')
             return redirect("registerVendor")
         else:
             print(form.errors)

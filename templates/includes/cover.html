@@ -1,7 +1,7 @@
 {% load static %}
 
-<div class="page-section restaurant-detail-image-section" style="background: url({% if vendor.user_profile.cover_photo  %} { vendor.user_profile.cover_photo.url } {% else %} {% static 'images/default/default_cover_picture.png' %}) {% endif %}no-repeat scroll 0 0 / cover;">
-    <!-- Container Start -->
+<div class="page-section restaurant-detail-image-section" style="background: url({% if vendor.user_profile.cover_photo %} {{ vendor.user_profile.cover_photo.url }} {% else %} {% static 'images/default/default_cover_picture.png' %} {% endif %})no-repeat scroll 0 0 / cover;">
+    <!-- Container Start -->eflnel
     <div class="container">
         <!-- Row Start -->
         <div class="row">

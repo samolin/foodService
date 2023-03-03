@@ -10,43 +10,24 @@
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                         <div class="tabs-holder horizontal">
                             <ul class="stickynav-tabs nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#home"><i class="fa fa-shopping-cart text-danger"></i>Cart Items</a></li>
+                                <li class="active"><a data-toggle="tab" href="#home"><i class="fa fa-shopping-cart text-danger"></i>Review Your Billing Address</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div id="home" class="tab-pane in active">
                                     <div class="menu-itam-holder">
-                                        <div class="text-center p-5" id="empty-cart" style="display: none;">
-                                            <h3>Cart is empty</h3>
-                                        </div>
                                         <div id="menu-item-list-6272" class="menu-itam-list">
-                                            <ul>
-                                                {% if cart_items %}
-                                                    {% for item in cart_items %}
-                                                        <li id="cart-item-{{ item.id }}">
-                                                            <div class="image-holder"><img src="{{ item.fooditem.image.url }}" alt="food-logo"></div>
-                                                            <div class="text-holder">
-                                                                <h6>{{ item.fooditem }}</h6>
-                                                                <span>{{ item.fooditem.description }}</span>
-                                                                <a href="{% url 'vendor_detail' item.fooditem.vendor.vendor_slug %}"><i class="badge badge-warning">{{ item.fooditem.vendor }}</i></a>
-                                                            </div>
-                                                            <div class="price-holder">
-                                                                <span class="price">${{ item.fooditem.price }}</span>
-                                                                <a href="#" class="decrease_cart" data-id="{{ item.fooditem.id }}" id="{{ item.id }}" data-url="{% url 'decrease_cart' item.fooditem.id %}" style="margin-right: 28px;"><i class="icon-minus text-color"></i></a>
-                                                                <label id="qty-{{ item.fooditem.id }}">0</label>
-                                                                <a href="#" class="add_to_cart" data-id="{{ item.fooditem.id }}" data-url="{% url 'add_to_cart' item.fooditem.id %}"><i class="icon-plus4 text-color"></i></a>
-                                                                <a href="#" class="delete_cart" data-id="{{ item.id }}" data-url="{% url 'delete_cart' item.id %}"><i class="icon-delete text-color"></i></a>
-                                                            </div>
-                                                        </li>
-                                                    {% endfor %}
-                                                {% else %}
-                                                    <div class="text-center p-5">
-                                                        <h3>Cart is empty</h3>
-                                                    </div>
-                                                {% endif %}
-                                            </ul>
-                                            {% for item in cart_items %}
-                                                <span id="qty-{{ item.fooditem.id }}" class="item_qty d-none" data-qty="{{ item.quantity }}">{{ item.quantity }}</span>
-                                            {% endfor %}
+                                            <div class="billing-address">
+                                                <div><b>{{ order.name }}</b></div>
+                                                <div>{{ order.address }}</div>
+                                                <div>{{ order.city }} - {{ current_order_id.pin_code }}</div>
+                                                <div>{{ order.state }}, {{ current_order_id.country }}</div>
+                                                <div><b>Phone: </b>{{order.phone }}</div>
+                                                <div><b>Email: </b>{{order.email }}</div>
+                                                <div><b>Payment: </b>{{order.payment_method }}</div>
+                                                <br>
+                                                <div><a href="{% url 'checkout' %}" class="btn btn-outline-danger">Edit</a></div>
+                                                <br>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -64,6 +45,19 @@
                                 <div id="home" class="tab-pane in active">
                                     <div class="menu-itam-holder">
                                         <div>
+                                            <table class="table">
+                                                <tbody>
+                                                    {% for item in cart_items %}
+                                                        <tr>
+                                                            <td><img src="{{ item.fooditem.image.url }}" width="40" alt="Food Image"></td>
+                                                            <td><b>{{ item.fooditem }}</b></td>
+                                                            <td>{{ item.quantity }} QTY</td>
+                                                            <td>${{ item.fooditem.price }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+
                                             <ul>
                                                 <li style="list-style-type: none;">
                                                     Subtotal
@@ -90,9 +84,8 @@
                                                         <span id="total">{{ grand_total }}</span>
                                                     </span>
                                                 </li>
-                                                <a href="{% url 'checkout' %}" class="btn btn-danger w-100 p-2 mt-3 mb-3">CHECKOUT</a>
+                                                <button id="checkout-button" class="btn btn-danger w-100 p-2 mt-3 mb-3">CHECKOUT STRIPE</button>
                                             </ul>
-                                        </div>
 
                                     </div>
                                 </div>
@@ -106,4 +99,32 @@
         </div>
     </div>
     <!-- Main Section End -->
+
+</script>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript">
+    var stripe = Stripe('{{ stripe_publishable_key }}');
+    var checkoutButton = document.getElementById('checkout-button');
+    checkoutButton.addEventListener('click',function () {
+        fetch("{% url 'api_checkout_session_order' id=order.order_number %}", {
+            method: 'POST'
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (session) {
+                return stripe.redirectToCheckout({ sessionId: session.sessionId });
+            })
+            .then(function (result) {
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
+    });
+
+</script>
 {% endblock %}

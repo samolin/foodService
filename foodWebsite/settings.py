@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "menu",
     "marketplace",
     "customers",
+    "orders",
 ]
 
 MIDDLEWARE = [
@@ -77,6 +78,7 @@ TEMPLATES = [
                 "accounts.context_processors.get_user_profile",
                 "marketplace.context_processors.get_cart_counter",
                 "marketplace.context_processors.get_cart_amounts",
+                "orders.context_processors.get_stripe_key",
             ],
         },
     },
@@ -163,3 +165,11 @@ EMAIL_HOST_USER = os.getenv("EMAIL_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASS")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 EMAIL_USE_TLS = True
+
+
+# Stripe
+
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+
+MAIN_DOMAIN = 'http://127.0.0.1:8000'

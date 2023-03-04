@@ -2,7 +2,6 @@ from vendor.models import Vendor
 from .models import UserProfile
 
 
-
 def get_vendor(request):
     try:
         vendor = Vendor.objects.get(user=request.user)

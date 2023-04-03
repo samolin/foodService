@@ -6,7 +6,7 @@ from menu.models import FoodItem
 from vendor.models import Vendor
 
 
-request_object = ''
+request_object = ""
 
 
 class Payment(models.Model):
@@ -49,10 +49,10 @@ class Order(models.Model):
     tax_data = models.JSONField(
         blank=True,
         help_text="Data format: {'tax_type':{'tax_percentage':'tax_amount'}}",
-        null=True
+        null=True,
     )
     total_data = models.JSONField(
-        blank=True, 
+        blank=True,
         null=True,
     )
     total_tax = models.FloatField()
@@ -66,10 +66,10 @@ class Order(models.Model):
     @property
     def name(self):
         return f"{self.first_name} {self.last_name}"
-    
+
     def order_placed_to(self):
-        return ', '.join([str(i) for i in self.vendors.all()])
-    
+        return ", ".join([str(i) for i in self.vendors.all()])
+
     def get_total_by_vendor(self):
         vendor = Vendor.objects.get(user=request_object.user)
         subtotal = 0
@@ -87,11 +87,11 @@ class Order(models.Model):
                 for i in val:
                     for j in val[i]:
                         tax += float(val[i][j])
-        grand_total = float(subtotal)+float(tax)
+        grand_total = float(subtotal) + float(tax)
         context = {
-            'subtotal': subtotal,
-            'tax_dict': tax_dict,
-            'grand_total': grand_total,
+            "subtotal": subtotal,
+            "tax_dict": tax_dict,
+            "grand_total": grand_total,
         }
         return context
 

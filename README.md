@@ -3,4 +3,6 @@
 
 ## First start
 
-* soon I'll add docker file for easy installation
+* make up - for creating a new container 
+* make migrate - for creating a dependencies in your database
+* make createuser - for creating a new superuser !!!don't forget to change the password and keep it secure
